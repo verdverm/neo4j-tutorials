@@ -1,4 +1,7 @@
-neo4j-tutorials
-===============
+Neo4j tutorials in Go
+=====================
 
-Neo4j tutorials translated into Go &amp; neoism
+Using
+ - [neoism](github.com/jmcvetta/neoism)
+ - Docker image (github)[github.com/tpires/neo4j] (docker)[registry.hub.docker.com/u/tpires/neo4j/]
+
