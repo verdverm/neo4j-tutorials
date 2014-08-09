@@ -197,7 +197,7 @@ func setNodeProperty() {
 
 	// query results
 	res := []struct {
-		Name string `json:"actor.name"` // `json` tag matches column name in query
+		Name string `json:"actor.name"`
 		DoB  string `json:"actor.DoB"`
 	}{}
 
@@ -242,7 +242,7 @@ func queryMovies() {
 
 	// check results
 	if len(res) != 2 {
-		panic(fmt.Sprintf("Incorrect results len in query1()\n\tgot %d, expected 2\n", len(res)))
+		panic(fmt.Sprintf("Incorrect results len in queryMovies()\n\tgot %d, expected 2\n", len(res)))
 	}
 
 	fmt.Printf("queryMovies()\n")

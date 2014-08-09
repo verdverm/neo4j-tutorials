@@ -1,7 +1,7 @@
 GS.1 Creating nodes and relationships
 =====================================
 
-## Create a node for the actor Tom Hanks:
+### Create a node for the actor Tom Hanks:
 
 ``` Go
 	// query statemunt
@@ -37,7 +37,7 @@ GS.1 Creating nodes and relationships
 	fmt.Println("createNode()", n.Data)
 ```
 
-## Find the node we just created:
+### Find the node we just created:
 
 ``` Go
 	// query statemunt
@@ -74,7 +74,7 @@ GS.1 Creating nodes and relationships
 	fmt.Printf("queryNode() -> %+v\n", n.Data)
 ```
 
-## Create a movie and connect it to an actor in one query
+### Create a movie and connect it to an actor in one statement
 ``` Go
 	actor := "Tom Hanks"
 	movie := "Sleepless in Seattle"
@@ -105,7 +105,7 @@ GS.1 Creating nodes and relationships
 	fmt.Println("createMovie()")
 ```
 
-## Same as the last, with less of a query statement:
+### Same as the last, with less of a query statement:
 also note the use of ``json:"tags"``
 ``` Go
 	actor := "Tom Hanks"
@@ -145,7 +145,7 @@ also note the use of ``json:"tags"``
 	fmt.Println("createUnique()", r.Name, r.Rel, r.Movie)
 ```
 
-## Set a property on a node:
+### Set a property on a node:
 
 ``` Go
 	actor := "Tom Hanks"
@@ -165,7 +165,7 @@ also note the use of ``json:"tags"``
 
 	// query results
 	res := []struct {
-		Name string `json:"actor.name"` // `json` tag matches column name in query
+		Name string `json:"actor.name"`
 		DoB  string `json:"actor.DoB"`
 	}{}
 
@@ -183,7 +183,7 @@ also note the use of ``json:"tags"``
 	fmt.Println("setNodeProperty()", r.Name, r.DoB)
 ```
 
-## List all Movies
+### List all Movies
 
 ``` Go
 	// query statemunt
@@ -212,7 +212,7 @@ also note the use of ``json:"tags"``
 
 	// check results
 	if len(res) != 2 {
-		panic(fmt.Sprintf("Incorrect results len in query1()\n\tgot %d, expected 2\n", len(res)))
+		panic(fmt.Sprintf("Incorrect results len in queryMovies()\n\tgot %d, expected 2\n", len(res)))
 	}
 
 	fmt.Printf("queryMovies()\n")
