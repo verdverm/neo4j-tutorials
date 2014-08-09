@@ -43,15 +43,36 @@ func main() {
 
 // Create a node with neoism function
 func createNode() {
+	// query statemunt
+	stmt := `
+		CREATE (actor:Actor { name:{actorSub}})
+		RETURN actor
+	`
+	// query params
 	actor := "Tom Hanks"
-	// Create a node
-	n, err := db.CreateNode(neoism.Props{"name": actor})
-	if err != nil {
-		panic(err)
-	}
-	// Add a label
-	n.AddLabel("Actor")
+	params := neoism.Props{"actorSub": actor}
 
+	// query results
+	res := []struct {
+		Actor neoism.Node
+	}{}
+
+	// construct query
+	cq := neoism.CypherQuery{
+		Statement:  stmt,
+		Parameters: params,
+		Result:     &res,
+	}
+	// execute query
+	err := db.Cypher(&cq)
+	panicErr(err)
+
+	// check results
+	if len(res) != 1 {
+		panic(fmt.Sprintf("Incorrect results len in query1()\n\tgot %d, expected 1\n", len(res)))
+	}
+
+	n := res[0].Actor // Only one row of data returned
 	fmt.Println("createNode()", n.Data)
 }
 
@@ -128,7 +149,7 @@ func createUnique() {
 	stmt := `
 		MATCH (actor:Actor {name: {actorSub}})
 		CREATE UNIQUE (actor)-[r:ACTED_IN]->(movie:Movie {title: {movieSub}})
-		RETURN r;
+		RETURN actor.name, type(r), movie.title;
 	`
 	// query params
 	params := neoism.Props{
@@ -138,9 +159,10 @@ func createUnique() {
 
 	// query results
 	res := []struct {
-		A   string `json:"a.name"` // `json` tag matches column name in query
-		Rel string `json:"type(r)"`
-		B   string `json:"b.name"`
+		// `json` tag matches column name in query
+		Name  string `json:"actor.name"`
+		Rel   string `json:"type(r)"`
+		Movie string `json:"movie.title"`
 	}{}
 
 	// construct query
@@ -154,7 +176,7 @@ func createUnique() {
 	panicErr(err)
 
 	r := res[0]
-	fmt.Println("createUnique()", r.A, r.Rel, r.B)
+	fmt.Println("createUnique()", r.Name, r.Rel, r.Movie)
 }
 
 func setNodeProperty() {
