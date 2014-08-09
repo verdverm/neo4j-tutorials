@@ -11,7 +11,7 @@ Using
 Getting Started
 ---------------
 
-- [Create nodes and relationships](GettingStarted/CreatingNodesAndRelationships/README.md)
+- [Create nodes and relationships](GettingStarted/CreatingNodesAndRelationships)
 - Movie Database
 - Social Movie Database
 - Finding Paths
