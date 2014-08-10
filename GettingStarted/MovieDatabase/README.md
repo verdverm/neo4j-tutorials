@@ -1,6 +1,8 @@
 GS.2 Movie Database
 ===================
 
+In this section, we will extend and enhance our query functions.
+
 ### Our first generic node query function:
 
 Careful! This is not a safe function for making queries.
@@ -160,6 +162,7 @@ func listGraphData() {
 ### What about relationships?
 
 Well, I'm single and probably shouldn't speak on the subject ;]
+
 As for this tutorial, I have left the relationship functions as
 an exercise for the student.
 

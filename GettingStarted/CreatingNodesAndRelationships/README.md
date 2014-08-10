@@ -1,6 +1,9 @@
 GS.1 Creating nodes and relationships
 =====================================
 
+In this section, we will implement some basic neo4j operations for
+creating nodes, relationships, and properties, as well as some simple queries.
+
 ### Create a node for the actor Tom Hanks:
 
 ``` Go
