@@ -60,7 +60,6 @@ func initDB() {
 }
 
 func main() {
-
 	getOtherMoviesViaActors("The Matrix")
 	getCoActingFromMovie("The Matrix")
 	getActorPaths("Keanu Reeves", "Carrie-Anne Moss")
