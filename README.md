@@ -19,16 +19,34 @@ Tutorials
 Getting Started
 ---------------
 
-- [Create nodes and relationships](GettingStarted/01-CreatingNodesAndRelationships)
-- [Movie Database](GettingStarted/02-MovieDatabase)
-- [Social Movie Database](GettingStarted/03-SocialMovieDatabase)
-- [Finding Paths](GettingStarted/04-FindingPaths)
+- [01 Create nodes and relationships](GettingStarted/01-CreatingNodesAndRelationships)
+- [02 Movie Database](GettingStarted/02-MovieDatabase)
+- [03 Social Movie Database](GettingStarted/03-SocialMovieDatabase)
+- [04 Finding Paths](GettingStarted/04-FindingPaths)
 - Labels, Constraints, and Indexes
 
 Data Modeling Examples
 ----------------------
 
-Coming soon...
+- 01 Linked Lists
+- 02 TV Shows
+- 03 ACL structures in graphs
+- 04 Hyperedges
+- 05 Basic friend finding
+- 06 Co-favorited places
+- 07 Find people based on similar favorites
+- 08 Find people based on mutual friends and groups
+- 09 Find friends based on similar tagging
+- 10 Multirelational (social) graphs
+- 11 Implementing newsfeeds in a graph
+- 12 Boosting recommendation results
+- 13 Calculating the clustering coefficient of a network
+- 14 Pretty graphs
+- 15 A multilevel indexing structure (path tree)
+- 16 Complex similarity computations
+- 17 The graphity activity stream model
+- 18 User roles in graphs
+
 
 More Neo4j and Cypher links
 ---------------------------
