@@ -77,6 +77,12 @@ func countNodes() {
 	fmt.Println("countNodes()", len(res))
 }
 
+func countNodesByType(typ string) {
+	match := "(n:" + typ + ")"
+	res := queryNodes(match, "", "", "n", "")
+	fmt.Println("countNodes()", len(res))
+}
+
 func showAllActors() {
 	res := queryNodes("(n:Actor)", "", "", "n", "")
 	fmt.Println("Actors: ", len(res))

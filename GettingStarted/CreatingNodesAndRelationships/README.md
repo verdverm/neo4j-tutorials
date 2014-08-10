@@ -74,7 +74,7 @@ GS.1 Creating nodes and relationships
 	fmt.Printf("queryNode() -> %+v\n", n.Data)
 ```
 
-### Create a movie and connect it to an actor in one statement
+### Create a movie and connect it to an actor in one statement:
 ``` Go
 	actor := "Tom Hanks"
 	movie := "Sleepless in Seattle"
@@ -183,7 +183,7 @@ also note the use of ``json:"tags"``
 	fmt.Println("setNodeProperty()", r.Name, r.DoB)
 ```
 
-### List all Movies
+### List all Movies:
 
 ``` Go
 	// query statemunt
