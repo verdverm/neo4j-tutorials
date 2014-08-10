@@ -17,7 +17,6 @@ For each secondary movie, include how many actors there are
 and a list of their names.
 
 ``` Go
-
 func getOtherMoviesViaActors(movie string) {
 	stmt := `
 		MATCH (:Movie { title: {movieSub} })<-[:ACTS_IN]-(actor)-[:ACTS_IN]->(movie)
@@ -49,6 +48,7 @@ func getOtherMoviesViaActors(movie string) {
 		fmt.Printf("  [%d] %24q  %d  %v\n", i, n.Title, n.Count, n.Actors)
 	}
 }
+```
 
 ### Find co-actors of actors in a movie:
 
