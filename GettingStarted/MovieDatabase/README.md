@@ -76,9 +76,7 @@ countNodesByType("Actor")
 countNodesByType("Movie")
 ```
 
-Let's count all of the relationships.
-
-Note, these are not the most efficient implementations because
+* Note, these are not the most efficient implementations because
 a list of nodes is return and then the length is found in Golang.
 Ideally, we would just return the count which requires
 a different return type than the `queryNodes()` function uses.
@@ -94,7 +92,7 @@ func showAllActors() {
 	res := queryNodes("(n:Actor)", "", "", "n", "")
 	fmt.Println("Actors: ", len(res))
 	for i, _ := range res {
-		n := res[i].N // Only one row of data returned
+		n := res[i].N
 		fmt.Printf("  Actor[%d] %+v\n", i, n.Data)
 	}
 }
@@ -103,7 +101,7 @@ func getActorByName(name string) {
 	res := queryNodes("(n:Actor)", "n.name = '"+name+"'", "", "n", "")
 	fmt.Println("Actors: ", len(res))
 	for i, _ := range res {
-		n := res[i].N // Only one row of data returned
+		n := res[i].N
 		fmt.Printf("  Actor[%d] %+v\n", i, n.Data)
 	}
 }
@@ -112,7 +110,7 @@ func showAllMovies() {
 	res := queryNodes("(n:Movie)", "", "", "n", "")
 	fmt.Println("Movies: ", len(res))
 	for i, _ := range res {
-		n := res[i].N // Only one row of data returned
+		n := res[i].N
 		fmt.Printf("  Movie[%d] %+v\n", i, n.Data)
 	}
 }
@@ -121,7 +119,7 @@ func getMovieByName(title string) {
 	res := queryNodes("(n:Movie)", "n.title = '"+title+"'", "", "n", "")
 	fmt.Println("Actors: ", len(res))
 	for i, _ := range res {
-		n := res[i].N // Only one row of data returned
+		n := res[i].N
 		fmt.Printf("  Actor[%d] %+v\n", i, n.Data)
 	}
 }
@@ -152,7 +150,7 @@ func listGraphData() {
 
 	fmt.Println("Graph Data: ", len(res))
 	for i, _ := range res {
-		n := res[i] // Only one row of data returned
+		n := res[i]
 		fmt.Printf("  [%d] %+v -> %+v -> %+v\n", i, n.From.Data, n.Rel.Data, n.To.Data)
 	}
 }

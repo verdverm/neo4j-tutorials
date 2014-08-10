@@ -87,7 +87,7 @@ func showAllActors() {
 	res := queryNodes("(n:Actor)", "", "", "n", "")
 	fmt.Println("Actors: ", len(res))
 	for i, _ := range res {
-		n := res[i].N // Only one row of data returned
+		n := res[i].N
 		fmt.Printf("  Actor[%d] %+v\n", i, n.Data)
 	}
 }
@@ -96,7 +96,7 @@ func getActorByName(name string) {
 	res := queryNodes("(n:Actor)", "n.name = '"+name+"'", "", "n", "")
 	fmt.Println("Actors: ", len(res))
 	for i, _ := range res {
-		n := res[i].N // Only one row of data returned
+		n := res[i].N
 		fmt.Printf("  Actor[%d] %+v\n", i, n.Data)
 	}
 }
@@ -105,7 +105,7 @@ func showAllMovies() {
 	res := queryNodes("(n:Movie)", "", "", "n", "")
 	fmt.Println("Movies: ", len(res))
 	for i, _ := range res {
-		n := res[i].N // Only one row of data returned
+		n := res[i].N
 		fmt.Printf("  Movie[%d] %+v\n", i, n.Data)
 	}
 }
@@ -114,7 +114,7 @@ func getMovieByName(title string) {
 	res := queryNodes("(n:Movie)", "n.title = '"+title+"'", "", "n", "")
 	fmt.Println("Actors: ", len(res))
 	for i, _ := range res {
-		n := res[i].N // Only one row of data returned
+		n := res[i].N
 		fmt.Printf("  Actor[%d] %+v\n", i, n.Data)
 	}
 }
@@ -141,7 +141,7 @@ func listGraphData() {
 
 	fmt.Println("Graph Data: ", len(res))
 	for i, _ := range res {
-		n := res[i] // Only one row of data returned
+		n := res[i]
 		fmt.Printf("  [%d] %+v -> %+v -> %+v\n", i, n.From.Data, n.Rel.Data, n.To.Data)
 	}
 }
