@@ -12,9 +12,9 @@ Getting Started
 ---------------
 
 - [Create nodes and relationships](GettingStarted/01-CreatingNodesAndRelationships)
-- [Movie Database](02-ettingStarted/MovieDatabase)
-- [Social Movie Database](03-GettingStarted/SocialMovieDatabase)
-- [Finding Paths](04-GettingStarted/FindingPaths)
+- [Movie Database](GettingStarted/02-MovieDatabase)
+- [Social Movie Database](GettingStarted/03-SocialMovieDatabase)
+- [Finding Paths](GettingStarted/04-FindingPaths)
 - Labels, Constraints, and Indexes
 
 Data Modeling Examples
