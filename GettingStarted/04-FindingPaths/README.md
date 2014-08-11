@@ -94,7 +94,7 @@ func getCoActingFromMovie(movie string) {
 Pick two actors.
 Find the ten shortest paths between these actors,
 through movies and co-actors.
-A.k.a the bacon path.
+A.k.a the Bacon path.
 
 ``` Go
 func getActorPaths(actor1, actor2 string) {

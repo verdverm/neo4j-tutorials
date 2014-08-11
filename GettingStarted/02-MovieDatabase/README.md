@@ -161,11 +161,8 @@ func listGraphData() {
 
 ### What about relationships?
 
-Well, I'm single and probably shouldn't speak on the subject ;]
-
-As for this tutorial, I have left the relationship functions as
+The relationship functions are left as
 an exercise for the student.
-
 The first task is to write a `queryRelationships(...)` function
 which mirrors `queryNodes(...)` except for the return type.
 From there, the remaining `count*()` and `list*()` functions

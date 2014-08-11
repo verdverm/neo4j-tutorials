@@ -8,7 +8,6 @@ import (
 
 var (
 	db *neoism.Database
-	i  = 1.1
 )
 
 func panicErr(err error) {

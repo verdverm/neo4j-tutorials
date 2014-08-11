@@ -17,13 +17,13 @@ func panicErr(err error) {
 }
 
 func init() {
-	resetDB()
+	// resetDB()
 	var err error
 	db, err = neoism.Connect("http://localhost:7474/db/data")
 	if err != nil {
 		panic(err)
 	}
-	initDB()
+	// initDB()
 }
 
 func resetDB() {
@@ -46,9 +46,7 @@ func initDB() {
 		  content: "It was awesome" })
 		CREATE (wakenPayne:User { name: "WakenPayne" })
 		CREATE (wakenPayne)-[:WROTE_REVIEW]->(himym_s1_e1_review1)<-[:HAS_REVIEW]-(himym_s1_e1)
-		MATCH (himym:TVShow { name: "How I Met Your Mother" }),(himym_s1:Season),
-		  (himym_s1_e1:Episode { name: "Pilot" }),
-		  (himym)-[:HAS_SEASON]->(himym_s1)-[:HAS_EPISODE]->(himym_s1_e1)
+
 		CREATE (marshall:Character { name: "Marshall Eriksen" })
 		CREATE (robin:Character { name: "Robin Scherbatsky" })
 		CREATE (barney:Character { name: "Barney Stinson" })
@@ -69,6 +67,7 @@ func initDB() {
 		  content: "The humour is great." })
 		CREATE (atlasredux:User { name: "atlasredux" })
 		CREATE (atlasredux)-[:WROTE_REVIEW]->(himym_s1_e1_review2)<-[:HAS_REVIEW]-(himym_s1_e1)
+
 		CREATE (er:TVShow { name: "ER" })
 		CREATE (er_s7:Season { name: "ER S7" })
 		CREATE (er_s7_e17:Episode { name: "Peter's Progress" })
@@ -92,35 +91,28 @@ func initDB() {
 
 func main() {
 
-	listGraphData()
+	show := "How I Met Your Mother"
+	getShowInfo(show)
+	getShowInfoWithComments(show)
+
+	getCharacterList(show)
+	getActorList(show)
+
+	getActorInfo("Josh Radnor")
+	// listGraphData()
 }
 
-func createUser(name string) {
-	queryNodes("", "", "(n:User {name: '"+name+"'})", "n", "")
-}
-
-func createFriendship(user, friend string) {
-	match := "(u:User {name: '" + user + "'}),(f:User {name: '" + friend + "'})"
-	create := "(u)-[:FRIEND]->(f)"
-	queryNodes(match, "", create, "", "")
-}
-
-func createRating(user, title, stars, comment string) {
-	match := "(u:User {name: '" + user + "'}),(m:Movie {title: '" + title + "'})"
-	create := "(u)-[:RATED { stars: " + stars + ", comment: '" + comment + "'}]->(m)"
-	queryNodes(match, "", create, "", "")
-}
-
-func getRatingsByUser(user string) {
+func getShowInfo(show string) {
 	stmt := `
-		MATCH (u:User {name: {userSub}}),(u)-[rating:RATED]->(movie)
-	    RETURN movie, rating;
+		MATCH (tvShow:TVShow)-[:HAS_SEASON]->(season)-[:HAS_EPISODE]->(episode)
+		WHERE tvShow.name = {showSub}
+		RETURN season.name, episode.name
 	`
-	params := neoism.Props{"userSub": user}
+	params := neoism.Props{"showSub": show}
 
 	res := []struct {
-		Movie  neoism.Node
-		Rating neoism.Relationship
+		Season  string `json:"season.name"`
+		Episode string `json:"episode.name"`
 	}{}
 
 	// construct query
@@ -134,26 +126,29 @@ func getRatingsByUser(user string) {
 	err := db.Cypher(&cq)
 	panicErr(err)
 
-	fmt.Println("User Ratings: ", user, len(res))
-	for i, _ := range res {
-		m := res[i].Movie.Data
-		r := res[i].Rating.Data.(map[string]interface{})
-		fmt.Printf("  [%d] %v    %v    %v\n",
-			i, m["title"], r["stars"], r["comment"])
+	if len(res) > 0 {
+		fmt.Println("Show: ", show)
+		fmt.Println("  ", res[0].Season, res[0].Episode)
+	} else {
+		fmt.Println("No results found")
 	}
+
 }
 
-func getFriendsByUser(user string) {
+func getShowInfoWithComments(show string) {
 	stmt := `
-		MATCH (u:User {name: {userSub}}),(u)-[r:FRIEND]->(f)
-	    RETURN type(r) AS T, f.name AS F;
+		MATCH (tvShow:TVShow)-[:HAS_SEASON]->(season)-[:HAS_EPISODE]->(episode)
+		WHERE tvShow.name = {showSub}
+		WITH season, episode
+		OPTIONAL MATCH (episode)-[:HAS_REVIEW]->(review)
+		RETURN season.name, episode.name, collect(review.content) AS Reviews
 	`
-	params := neoism.Props{"userSub": user}
+	params := neoism.Props{"showSub": show}
 
-	// query results
 	res := []struct {
-		T string
-		F string
+		Season  string `json:"season.name"`
+		Episode string `json:"episode.name"`
+		Reviews []string
 	}{}
 
 	// construct query
@@ -162,48 +157,34 @@ func getFriendsByUser(user string) {
 		Parameters: params,
 		Result:     &res,
 	}
+
 	// execute query
 	err := db.Cypher(&cq)
 	panicErr(err)
 
-	fmt.Println("User Friends: ", user, len(res))
-	for i, _ := range res {
-		n := res[i]
-		fmt.Printf("  [%d] %q  %q\n", i, n.T, n.F)
+	if len(res) > 0 {
+
+		fmt.Println("Show & Reviews: ", show, len(res[0].Reviews))
+		fmt.Println("Show: ", show)
+		fmt.Println("  ", res[0].Season, res[0].Episode)
+		for i, r := range res[0].Reviews {
+			fmt.Printf("     %d:  %s\n", i, r)
+		}
+	} else {
+		fmt.Println("No results found")
 	}
 }
 
-// careful...
-func queryNodes(MATCH, WHERE, CREATE, RETURN, ORDERBY string) []struct{ N neoism.Node } {
-	stmt := ""
-	if MATCH != "" {
-		stmt += "MATCH " + MATCH + " "
-	}
-	if WHERE != "" {
-		stmt += "WHERE " + WHERE + " "
-	}
-	if CREATE != "" {
-		stmt += "CREATE " + CREATE + " "
-	}
-	if RETURN != "" {
-		stmt += "RETURN " + RETURN + " "
-	}
-	if ORDERBY != "" {
-		stmt += "ORDERBY " + ORDERBY + " "
-	}
-	stmt += ";"
-	// params
-	params := neoism.Props{
-		"MATCH":   MATCH,
-		"WHERE":   WHERE,
-		"CREATE":  CREATE,
-		"RETURN":  RETURN,
-		"ORDERBY": ORDERBY,
-	}
+func getCharacterList(show string) {
+	stmt := `
+		MATCH (tvShow:TVShow)-[:HAS_SEASON]->()-[:HAS_EPISODE]->()-[:FEATURED_CHARACTER]->(character)
+		WHERE tvShow.name = {showSub}
+		RETURN DISTINCT character.name
+	`
+	params := neoism.Props{"showSub": show}
 
-	// query results
 	res := []struct {
-		N neoism.Node
+		Name string `json:"character.name"`
 	}{}
 
 	// construct query
@@ -212,11 +193,90 @@ func queryNodes(MATCH, WHERE, CREATE, RETURN, ORDERBY string) []struct{ N neoism
 		Parameters: params,
 		Result:     &res,
 	}
+
 	// execute query
 	err := db.Cypher(&cq)
 	panicErr(err)
 
-	return res
+	if len(res) > 0 {
+		fmt.Println("Show: ", show)
+		for _, n := range res {
+			fmt.Println(" ", n.Name)
+		}
+	} else {
+		fmt.Println("No results found")
+	}
+
+}
+
+func getActorList(show string) {
+	stmt := `
+		MATCH (tvShow:TVShow)-[:HAS_SEASON]->()-[:HAS_EPISODE]->()-[:FEATURED_CHARACTER]->(character)<-[:PLAYED_CHARACTER]-(actor)
+		WHERE tvShow.name = {showSub}
+		RETURN DISTINCT actor.name, character.name
+	`
+	params := neoism.Props{"showSub": show}
+
+	res := []struct {
+		Name string `json:"actor.name"`
+		Char string `json:"character.name"`
+	}{}
+
+	// construct query
+	cq := neoism.CypherQuery{
+		Statement:  stmt,
+		Parameters: params,
+		Result:     &res,
+	}
+
+	// execute query
+	err := db.Cypher(&cq)
+	panicErr(err)
+
+	if len(res) > 0 {
+		fmt.Println("Show: ", show)
+		for _, n := range res {
+			fmt.Printf("  %-24s  %-24s\n", n.Name, n.Char)
+		}
+	} else {
+		fmt.Println("No results found")
+	}
+}
+
+func getActorInfo(name string) {
+	stmt := `
+		MATCH (actor:Actor)-[:PLAYED_CHARACTER]->(character)<-[:FEATURED_CHARACTER]-(episode), (episode)<-[:HAS_EPISODE]-(season)<-[:HAS_SEASON]-(tvshow)
+		WHERE actor.name = {nameSub}
+		RETURN tvshow.name AS Show, season.name AS Season, episode.name AS Episode, character.name AS Character
+	`
+	params := neoism.Props{"nameSub": name}
+
+	res := []struct {
+		Show      string
+		Season    string
+		Episode   string
+		Character string
+	}{}
+
+	// construct query
+	cq := neoism.CypherQuery{
+		Statement:  stmt,
+		Parameters: params,
+		Result:     &res,
+	}
+
+	// execute query
+	err := db.Cypher(&cq)
+	panicErr(err)
+
+	if len(res) > 0 {
+		fmt.Println("Actor: ", name)
+		for _, n := range res {
+			fmt.Printf("  %-24s  %-16s  %-24s  %-16s\n", n.Show, n.Season, n.Episode, n.Character)
+		}
+	} else {
+		fmt.Println("No results found")
+	}
 }
 
 func listGraphData() {
