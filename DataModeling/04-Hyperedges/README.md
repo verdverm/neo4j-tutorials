@@ -3,8 +3,9 @@ DM.04 Hyperedges
 
 In this section, we will explore [hyperedges](http://en.wikipedia.org/wiki/Hypergraph) in the context of users, groups, and roles.
 
-### The setup
-![data-viz!](https://raw.github.com/verdverm/neo4j-tutorials/DataModeling/04-Hyperedges/cypher-hyperedgecommongroups-graph.svg)
+### The Setup
+
+<img src="http://docs.neo4j.org/chunked/stable/images/cypher-hyperedgecommongroups-graph.svg">
 
 ### Finding Role of a User in a group
 
