@@ -111,192 +111,30 @@ func initDB() {
 }
 
 func main() {
+
 	listUsers()
 	listGroups()
-	listGroupRoles("Group1")
-	listGroupRoles("Group2")
-	listGroupRoles("Group3")
-	// listUserGroupsRoles("User1")
+	println()
+
+	listGroupRolesUser("Group1")
+	listGroupRolesUser("Group2")
+	listGroupRolesUser("Group3")
+	println()
+
+	listUserGroupRoles("User1")
+	listUserGroupRoles("User2")
+	listUserRolesInGroup("User1", "Group1")
+	println()
+
+	findCommonGroupsForUsers("User1", "User2")
+	println()
+	findCommonRolesForUsers("User1", "User2")
+	println()
+
+	findCommonGroupRoles()
 
 	// listGraphData()
 }
-
-// func getShowInfo(show string) {
-// 	stmt := `
-// 		MATCH (tvShow:TVShow)-[:HAS_SEASON]->(season)-[:HAS_EPISODE]->(episode)
-// 		WHERE tvShow.name = {showSub}
-// 		RETURN season.name, episode.name
-// 	`
-// 	params := neoism.Props{"showSub": show}
-
-// 	res := []struct {
-// 		Season  string `json:"season.name"`
-// 		Episode string `json:"episode.name"`
-// 	}{}
-
-// 	// construct query
-// 	cq := neoism.CypherQuery{
-// 		Statement:  stmt,
-// 		Parameters: params,
-// 		Result:     &res,
-// 	}
-
-// 	// execute query
-// 	err := db.Cypher(&cq)
-// 	panicErr(err)
-
-// 	if len(res) > 0 {
-// 		fmt.Println("Show: ", show)
-// 		fmt.Println("  ", res[0].Season, res[0].Episode)
-// 	} else {
-// 		fmt.Println("No results found")
-// 	}
-
-// }
-
-// func getShowInfoWithComments(show string) {
-// 	stmt := `
-// 		MATCH (tvShow:TVShow)-[:HAS_SEASON]->(season)-[:HAS_EPISODE]->(episode)
-// 		WHERE tvShow.name = {showSub}
-// 		WITH season, episode
-// 		OPTIONAL MATCH (episode)-[:HAS_REVIEW]->(review)
-// 		RETURN season.name, episode.name, collect(review.content) AS Reviews
-// 	`
-// 	params := neoism.Props{"showSub": show}
-
-// 	res := []struct {
-// 		Season  string `json:"season.name"`
-// 		Episode string `json:"episode.name"`
-// 		Reviews []string
-// 	}{}
-
-// 	// construct query
-// 	cq := neoism.CypherQuery{
-// 		Statement:  stmt,
-// 		Parameters: params,
-// 		Result:     &res,
-// 	}
-
-// 	// execute query
-// 	err := db.Cypher(&cq)
-// 	panicErr(err)
-
-// 	if len(res) > 0 {
-
-// 		fmt.Println("Show & Reviews: ", show, len(res[0].Reviews))
-// 		fmt.Println("Show: ", show)
-// 		fmt.Println("  ", res[0].Season, res[0].Episode)
-// 		for i, r := range res[0].Reviews {
-// 			fmt.Printf("     %d:  %s\n", i, r)
-// 		}
-// 	} else {
-// 		fmt.Println("No results found")
-// 	}
-// }
-
-// func getCharacterList(show string) {
-// 	stmt := `
-// 		MATCH (tvShow:TVShow)-[:HAS_SEASON]->()-[:HAS_EPISODE]->()-[:FEATURED_CHARACTER]->(character)
-// 		WHERE tvShow.name = {showSub}
-// 		RETURN DISTINCT character.name
-// 	`
-// 	params := neoism.Props{"showSub": show}
-
-// 	res := []struct {
-// 		Name string `json:"character.name"`
-// 	}{}
-
-// 	// construct query
-// 	cq := neoism.CypherQuery{
-// 		Statement:  stmt,
-// 		Parameters: params,
-// 		Result:     &res,
-// 	}
-
-// 	// execute query
-// 	err := db.Cypher(&cq)
-// 	panicErr(err)
-
-// 	if len(res) > 0 {
-// 		fmt.Println("Show: ", show)
-// 		for _, n := range res {
-// 			fmt.Println(" ", n.Name)
-// 		}
-// 	} else {
-// 		fmt.Println("No results found")
-// 	}
-
-// }
-
-// func getActorList(show string) {
-// 	stmt := `
-// 		MATCH (tvShow:TVShow)-[:HAS_SEASON]->()-[:HAS_EPISODE]->()-[:FEATURED_CHARACTER]->(character)<-[:PLAYED_CHARACTER]-(actor)
-// 		WHERE tvShow.name = {showSub}
-// 		RETURN DISTINCT actor.name, character.name
-// 	`
-// 	params := neoism.Props{"showSub": show}
-
-// 	res := []struct {
-// 		Name string `json:"actor.name"`
-// 		Char string `json:"character.name"`
-// 	}{}
-
-// 	// construct query
-// 	cq := neoism.CypherQuery{
-// 		Statement:  stmt,
-// 		Parameters: params,
-// 		Result:     &res,
-// 	}
-
-// 	// execute query
-// 	err := db.Cypher(&cq)
-// 	panicErr(err)
-
-// 	if len(res) > 0 {
-// 		fmt.Println("Show: ", show)
-// 		for _, n := range res {
-// 			fmt.Printf("  %-24s  %-24s\n", n.Name, n.Char)
-// 		}
-// 	} else {
-// 		fmt.Println("No results found")
-// 	}
-// }
-
-// func getActorInfo(name string) {
-// 	stmt := `
-// 		MATCH (actor:Actor)-[:PLAYED_CHARACTER]->(character)<-[:FEATURED_CHARACTER]-(episode), (episode)<-[:HAS_EPISODE]-(season)<-[:HAS_SEASON]-(tvshow)
-// 		WHERE actor.name = {nameSub}
-// 		RETURN tvshow.name AS Show, season.name AS Season, episode.name AS Episode, character.name AS Character
-// 	`
-// 	params := neoism.Props{"nameSub": name}
-
-// 	res := []struct {
-// 		Show      string
-// 		Season    string
-// 		Episode   string
-// 		Character string
-// 	}{}
-
-// 	// construct query
-// 	cq := neoism.CypherQuery{
-// 		Statement:  stmt,
-// 		Parameters: params,
-// 		Result:     &res,
-// 	}
-
-// 	// execute query
-// 	err := db.Cypher(&cq)
-// 	panicErr(err)
-
-// 	if len(res) > 0 {
-// 		fmt.Println("Actor: ", name)
-// 		for _, n := range res {
-// 			fmt.Printf("  %-24s  %-16s  %-24s  %-16s\n", n.Show, n.Season, n.Episode, n.Character)
-// 		}
-// 	} else {
-// 		fmt.Println("No results found")
-// 	}
-// }
 
 func listUsers() {
 	stmt := `
@@ -362,9 +200,9 @@ func listGroups() {
 
 func listGroupRoles(group string) {
 	stmt := `
-		MATCH (perm)-[:hasGroup]->(group)
+		MATCH (hyperedge)-[:hasGroup]->(group)
 		WHERE group.name = {groupSub}
-		MATCH (perm)-[:hasRole]->(role)
+		MATCH (hyperedge)-[:hasRole]->(role)
 		RETURN role.name
 		ORDER BY role.name
 	`
@@ -387,7 +225,7 @@ func listGroupRoles(group string) {
 	panicErr(err)
 
 	if len(res) > 0 {
-		fmt.Println("Group Roles:", group)
+		fmt.Println(group, " Roles:")
 		for _, n := range res {
 			fmt.Printf("  %-24s\n", n.Name)
 		}
@@ -397,18 +235,22 @@ func listGroupRoles(group string) {
 
 }
 
-func listUserGroupsRoles(user string) {
+func listGroupRolesUser(group string) {
 	stmt := `
-		MATCH (group:Group)-[:hasRole]->(role)
+		MATCH (hyperedge)-[:hasGroup]->(group)
 		WHERE group.name = {groupSub}
-		RETURN group.name, role.name
+		MATCH (user:User)-[:hasRoleInGroup]->(hyperedge)-[:hasRole]->(role)
+		WITH user, role
+		ORDER BY user.name
+		RETURN role.name, collect(user.name) AS users
+		ORDER BY role.name
 	`
 
-	params := neoism.Props{"userSub": user}
+	params := neoism.Props{"groupSub": group}
 
 	res := []struct {
-		Group string `json:"group.name"`
-		Role  string `json:"role.name"`
+		Role  string   `json:"role.name"`
+		Users []string `json:"users"`
 	}{}
 
 	// construct query
@@ -423,14 +265,217 @@ func listUserGroupsRoles(user string) {
 	panicErr(err)
 
 	if len(res) > 0 {
-		fmt.Println("User Group Roles:", user)
+		fmt.Println(group, " Role / User:")
 		for _, n := range res {
-			fmt.Printf("  %-24s  %-24s\n", n.Group, n.Role)
+			fmt.Printf("  %-24s  %v\n", n.Role, n.Users)
 		}
 	} else {
 		fmt.Println("No results found")
 	}
 
+}
+
+func listUserGroupRoles(user string) {
+	stmt := `
+		MATCH (user:User)-[:hasRoleInGroup]->(hyperedge)
+		WHERE user.name = {userSub}
+		MATCH (hyperedge)-[:hasGroup]->(group), (hyperedge)-[:hasRole]->(role)
+		RETURN group.name, collect(role.name) AS Roles
+		ORDER BY group.name
+	`
+
+	params := neoism.Props{"userSub": user}
+
+	res := []struct {
+		Group string   `json:"group.name"`
+		Role  []string `json:"Roles"`
+	}{}
+
+	// construct query
+	cq := neoism.CypherQuery{
+		Statement:  stmt,
+		Parameters: params,
+		Result:     &res,
+	}
+
+	// execute query
+	err := db.Cypher(&cq)
+	panicErr(err)
+
+	if len(res) > 0 {
+		fmt.Println(user, " Groups / Roles:")
+		for _, n := range res {
+			fmt.Printf("  %-24s  %-v\n", n.Group, n.Role)
+		}
+	} else {
+		fmt.Println("No results found")
+	}
+
+}
+
+func listUserRolesInGroup(user, group string) {
+	stmt := `
+		MATCH (user:User)-[:hasRoleInGroup]->(hyperedge)-[:hasGroup]->(group:Group)
+		WHERE user.name = {userSub} AND group.name = {groupSub}
+		MATCH (hyperedge)-[:hasRole]->(role)
+		RETURN role.name
+		ORDER BY role.name
+	`
+
+	params := neoism.Props{"userSub": user, "groupSub": group}
+
+	res := []struct {
+		Role string `json:"role.name"`
+	}{}
+
+	// construct query
+	cq := neoism.CypherQuery{
+		Statement:  stmt,
+		Parameters: params,
+		Result:     &res,
+	}
+
+	// execute query
+	err := db.Cypher(&cq)
+	panicErr(err)
+
+	if len(res) > 0 {
+		fmt.Println(user, "-", group, " Roles:")
+		for _, n := range res {
+			fmt.Printf("  %-24s\n", n.Role)
+		}
+	} else {
+		fmt.Println("No results found")
+	}
+
+}
+
+func findCommonGroupsForUsers(user1, user2 string) {
+	stmt := `
+		MATCH
+			(u1:User)-[:hasRoleInGroup]->(hyper1)-[:hasGroup]->(group:Group),
+			(hyper1)-[:hasRole]->(role1),
+			(u2:User)-[:hasRoleInGroup]->(hyper2)-[:hasGroup]->(group:Group),
+			(hyper2)-[:hasRole]->(role2)
+		WHERE u1.name = {user1Sub} AND u2.name = {user2Sub}
+		RETURN group.name, collect(DISTINCT role1.name) AS role1s, collect(DISTINCT role2.name) AS role2s
+		ORDER BY group.name
+	`
+
+	params := neoism.Props{"user1Sub": user1, "user2Sub": user2}
+
+	res := []struct {
+		Group string   `json:"group.name"`
+		Role1 []string `json:"role1s"`
+		Role2 []string `json:"role2s"`
+	}{}
+
+	// construct query
+	cq := neoism.CypherQuery{
+		Statement:  stmt,
+		Parameters: params,
+		Result:     &res,
+	}
+
+	// execute query
+	err := db.Cypher(&cq)
+	panicErr(err)
+
+	if len(res) > 0 {
+		fmt.Printf("%-12s  %-14s  %-14s\n", "Group", user1, user2)
+		for _, n := range res {
+			fmt.Printf("  %-10s  %v  %v\n", n.Group, n.Role1, n.Role2)
+		}
+	} else {
+		fmt.Println("No results found")
+	}
+}
+
+func findCommonRolesForUsers(user1, user2 string) {
+	stmt := `
+		MATCH
+			(u1:User)-[:hasRoleInGroup]->(hyper1)-[:hasRole]->(role:Role),
+			(hyper1)-[:hasGroup]->(g1),
+			(u2:User)-[:hasRoleInGroup]->(hyper2)-[:hasRole]->(role:Role),
+			(hyper2)-[:hasGroup]->(g2)
+		WHERE u1.name = {user1Sub} AND u2.name = {user2Sub}
+		RETURN role.name, collect(DISTINCT g1.name) AS group1s, collect(DISTINCT g2.name) AS group2s
+		ORDER BY role.name
+	`
+
+	params := neoism.Props{"user1Sub": user1, "user2Sub": user2}
+
+	res := []struct {
+		Role   string   `json:"role.name"`
+		Group1 []string `json:"group1s"`
+		Group2 []string `json:"group2s"`
+	}{}
+
+	// construct query
+	cq := neoism.CypherQuery{
+		Statement:  stmt,
+		Parameters: params,
+		Result:     &res,
+	}
+
+	// execute query
+	err := db.Cypher(&cq)
+	panicErr(err)
+
+	if len(res) > 0 {
+		fmt.Printf("%-12s  %-16s  %-16s\n", "Role", user1, user2)
+		for _, n := range res {
+			fmt.Printf("  %-10s  %v  %v\n", n.Role, n.Group1, n.Group2)
+		}
+	} else {
+		fmt.Println("No results found")
+	}
+}
+
+func findCommonGroupRoles() {
+	stmt := `
+		MATCH
+			(user:User)-[:hasRoleInGroup]->(hyper)-[:hasRole]->(role:Role),
+			(hyper)-[:hasGroup]->(group:Group)
+		WITH user
+		ORDER BY user.name
+		MATCH
+			(u1:User)-[:hasRoleInGroup]->(hyper1)-[:hasRole]->(role:Role),
+			(hyper1)-[:hasGroup]->(group:Group),
+			(u2:User)-[:hasRoleInGroup]->(hyper2)-[:hasRole]->(role:Role),
+			(hyper2)-[:hasGroup]->(group:Group)
+		WHERE u1.name <> u2.name
+		RETURN group.name, role.name, collect(DISTINCT user.name) AS users
+		ORDER BY group.name, role.name
+
+
+	`
+
+	res := []struct {
+		Group string   `json:"group.name"`
+		Role  string   `json:"role.name"`
+		Users []string `json:"users"`
+	}{}
+
+	// construct query
+	cq := neoism.CypherQuery{
+		Statement:  stmt,
+		Parameters: nil,
+		Result:     &res,
+	}
+
+	// execute query
+	err := db.Cypher(&cq)
+	panicErr(err)
+
+	if len(res) > 0 {
+		fmt.Printf("%-12s  %-12s  %-12s\n", "Group", "Role", "Users")
+		for _, n := range res {
+			fmt.Printf("  %-10s  %-12s  %v\n", n.Group, n.Role, n.Users)
+		}
+	} else {
+		fmt.Println("No results found")
+	}
 }
 
 func listGraphData() {
