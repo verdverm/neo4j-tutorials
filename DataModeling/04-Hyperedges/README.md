@@ -5,7 +5,7 @@ In this section, we will explore [hyperedges](http://en.wikipedia.org/wiki/Hyper
 
 ### The setup
 
-![data-viz!](https://raw.github.com/verdverm/neo4j-tutorials/DataModeling/04-Hyperedges/cypher-hyperedgecommongroups-graph.svg)
+![data-viz](http://docs.neo4j.org/chunked/stable/images/cypher-hyperedgecommongroups-graph.svg)
 
 
 ### Listing Users and Groups
