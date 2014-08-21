@@ -37,7 +37,7 @@ Data Modeling Examples
 - [07 Find people based on similar favorites](DataModeling/07-FindBySimilarFavorites)
 - [08 Find people based on mutual friends and groups](DataModeling/08-FindByMutualFriendsAndGroups)
 - [09 Find friends based on similar tagging](DataModeling/09-FindFriendsBySimilarTagging)
-- [10 Multirelational (social) graphs](DataModeling/MultirelationalGraphs)
+- [10 Multirelational (social) graphs](DataModeling/10-MultirelationalGraphs)
 - 11 Implementing newsfeeds in a graph
 - 12 Boosting recommendation results
 - 13 Calculating the clustering coefficient of a network
