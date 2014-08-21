@@ -33,7 +33,7 @@ Data Modeling Examples
 - 03 ACL structures in graphs
 - [04 Hyperedges](DataModeling/04-Hyperedges)
 - [05 Basic friend finding](DataModeling/05-BasicFriendFinding)
-- 06 Co-favorited places
+- [06 Co-favorited places](DataModeling/06-CofavoritedPlaces)
 - 07 Find people based on similar favorites
 - 08 Find people based on mutual friends and groups
 - 09 Find friends based on similar tagging
