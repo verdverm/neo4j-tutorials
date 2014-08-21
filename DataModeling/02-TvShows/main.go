@@ -17,13 +17,13 @@ func panicErr(err error) {
 }
 
 func init() {
-	// resetDB()
+	resetDB()
 	var err error
 	db, err = neoism.Connect("http://localhost:7474/db/data")
 	if err != nil {
 		panic(err)
 	}
-	// initDB()
+	initDB()
 }
 
 func resetDB() {

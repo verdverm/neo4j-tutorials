@@ -28,10 +28,10 @@ Getting Started
 Data Modeling Examples
 ----------------------
 
-- 01 Linked Lists
+- [01 Linked Lists](DataModeling/01-LinkedLists)
 - 02 TV Shows
 - 03 ACL structures in graphs
-- 04 Hyperedges
+- [04 Hyperedges](DataModeling/04-Hyperedges)
 - 05 Basic friend finding
 - 06 Co-favorited places
 - 07 Find people based on similar favorites

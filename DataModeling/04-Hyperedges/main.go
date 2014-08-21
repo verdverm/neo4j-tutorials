@@ -18,13 +18,13 @@ func panicErr(err error) {
 }
 
 func init() {
-	// resetDB()
+	resetDB()
 	var err error
 	db, err = neoism.Connect("http://localhost:7474/db/data")
 	if err != nil {
 		panic(err)
 	}
-	// initDB()
+	initDB()
 }
 
 func resetDB() {
@@ -123,11 +123,14 @@ func main() {
 
 	listUserGroupRoles("User1")
 	listUserGroupRoles("User2")
+	println()
+
 	listUserRolesInGroup("User1", "Group1")
 	println()
 
 	findCommonGroupsForUsers("User1", "User2")
 	println()
+
 	findCommonRolesForUsers("User1", "User2")
 	println()
 
