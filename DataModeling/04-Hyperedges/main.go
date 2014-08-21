@@ -33,33 +33,6 @@ func resetDB() {
 }
 
 func initDB() {
-	// stmt := `
-	// 	CREATE (_0 { name: "U1G2R1"})
-	// 	CREATE (_1 { name: "Role2"})
-	// 	CREATE (_2 { name: "Group1"})
-	// 	CREATE (_3 { name: "Group2"})
-	// 	CREATE (_4 { name: "Role1"})
-	// 	CREATE (_5 { name: "Role"})
-	// 	CREATE (_6 { name: "User1"})
-	// 	CREATE (_7 { name: "U1G1R2"})
-	// 	CREATE (_8 { name: "Group"})
-	// 	CREATE _0-[:hasRole]->_4
-	// 	CREATE _0-[:hasGroup]->_3
-	// 	CREATE _1-[:isA]->_5
-	// 	CREATE _2-[:canHave]->_4
-	// 	CREATE _2-[:canHave]->_1
-	// 	CREATE _2-[:isA]->_8
-	// 	CREATE _3-[:canHave]->_1
-	// 	CREATE _3-[:canHave]->_4
-	// 	CREATE _3-[:isA]->_8
-	// 	CREATE _4-[:isA]->_5
-	// 	CREATE _6-[:in]->_2
-	// 	CREATE _6-[:in]->_3
-	// 	CREATE _6-[:hasRoleInGroup]->_0
-	// 	CREATE _6-[:hasRoleInGroup]->_7
-	// 	CREATE _7-[:hasRole]->_1
-	// 	CREATE _7-[:hasGroup]->_2
-	// `
 	stmt := `
 		CREATE (_0 {name:"U2G2R34"})
 		CREATE (_1 {name:"U1G3R34"})

@@ -2,19 +2,19 @@ DM.07 Find By Similar Favorites
 ===============================
 
 
-### List a user's favorited places.
+### List a user's favorite things.
 
 ```Go
 func getFavoriteList(user string) {
 	stmt := `
-		MATCH (user:User {name: {userSub}})-[:favorite]->(place:Place)
-		RETURN place.name
-		ORDER BY place.name
+		MATCH (user:User {name: {userSub}})-[:favorite]->(thing:Thing)
+		RETURN thing.name
+		ORDER BY thing.name
 	`
 	params := neoism.Props{"userSub": user}
 
 	res := []struct {
-		Favorite string `json:"place.name"`
+		Favorite string `json:"thing.name"`
 	}{}
 
 	// construct query
