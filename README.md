@@ -29,7 +29,7 @@ Data Modeling Examples
 ----------------------
 
 - [01 Linked Lists](DataModeling/01-LinkedLists)
-- 02 TV Shows
+- [02 TV Shows](DataModeling/02-TvShows)
 - 03 ACL structures in graphs
 - [04 Hyperedges](DataModeling/04-Hyperedges)
 - 05 Basic friend finding
