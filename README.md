@@ -32,7 +32,7 @@ Data Modeling Examples
 - [02 TV Shows](DataModeling/02-TvShows)
 - 03 ACL structures in graphs
 - [04 Hyperedges](DataModeling/04-Hyperedges)
-- 05 Basic friend finding
+- [05 Basic friend finding](DataModeling/05-BasicFriendFinding)
 - 06 Co-favorited places
 - 07 Find people based on similar favorites
 - 08 Find people based on mutual friends and groups
